@@ -2,6 +2,20 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Requirements for local development
+
+#### PostgreSQL/Database
+
+This application requires connection to a PostgreSQL database. This database can live on your local machine, a Docker image, or can be hosted elsewhere. You will need a PostgreSQL connection string, which contains a username, password, host URL, and database name. This string will be used in the following steps.
+
+#### Auth0
+
+The application uses Auth0 for user access. Details from the application's Auth0 dashboard will need to be provided in the environment variables.
+
+#### Environment Variables
+
+Environmental variables will provide data that should not be hard-coded, such as the database connection string. Create a `.env` file based on the instructions in the `.env.sample` file.
+
 First, run the development server:
 
 ```bash
