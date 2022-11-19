@@ -4,17 +4,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import cardData from '../card/cardData';
+// import Container from '@mui/material/Container';
+// import Grid from '@mui/material/Grid';
+// import cardData from '../card/cardData';
 
-const Product = () => {
+const Product = ({ cardData }) => {
+	console.log(cardData)
   return (
-	<Container>
-		<Grid container spacing={5} justify="center">		
-			<Grid item>	
+			<>
 				<Card style={{ height: 350, width: 350, }}>
-
 					<CardMedia
 						component='img'
 						alt='white trailer'
@@ -34,9 +32,7 @@ const Product = () => {
 						<Button size='small'>Learn More</Button>
 					</CardActions>
 				</Card>
-			</Grid>	
-		</Grid>
-	</Container>			
+			</>			
   );
 }
 

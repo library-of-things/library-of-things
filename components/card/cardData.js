@@ -5,9 +5,9 @@ const cardData = [
 	"timestamp": "TBD",
 	"description": "2 inch ball hitch",
 	"times shared": "13",
-	category: "Automotive",
-	condition: "Excellent",
-	owner_id: "0001"
+	"category": "Automotive",
+	"condition": "Excellent",
+	"owner_id": "0001"
 	},
 	{
 	"id": "0002",
@@ -15,9 +15,9 @@ const cardData = [
 	"timestamp": "TBD",
 	"description": "rake for gardening",
 	"times shared": "19",
-	category: "Lawn & Garden",
-	condition: "Excellent",
-	owner_id: "0002"
+	"category": "Lawn & Garden",
+	"condition": "Excellent",
+	"owner_id": "0002"
 	},
 	{
 	"id": "0003",
@@ -25,9 +25,9 @@ const cardData = [
 	"timestamp": "TBD",
 	"description": "arch for balloons",
 	"times shared": "15",
-	category: "Event",
-	condition: "Excellent",
-	owner_id: "0003"
+	"category": "Event",
+	"condition": "Excellent",
+	"owner_id": "0003"
 	}
 	]
 
