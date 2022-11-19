@@ -3,7 +3,7 @@ import { Container, Typography } from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import Account from '../components/account';
 
-export default function Home() {
+export default function Profile() {
   const session = useSession();
   const supabase = useSupabaseClient();
 
