@@ -28,7 +28,17 @@ const cardData = [
 	"category": "Event",
 	"condition": "Excellent",
 	"owner_id": "0003"
-	}
+	},
+	{
+		"id": "0004",
+		"name": "Thing",
+		"timestamp": "TBD",
+		"description": "Is a thing",
+		"times shared": "19",
+		"category": "Thing",
+		"condition": "Excellent",
+		"owner_id": "0002"
+		},
 	]
 
 export default cardData;
