@@ -12,6 +12,7 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import AvatarEdit from './avatar-edit';
 
 export default function Account({ session }) {
   const supabase = useSupabaseClient();
@@ -93,6 +94,14 @@ export default function Account({ session }) {
           <DialogContentText>
             Edit your Library of Things profile.
           </DialogContentText>
+          <AvatarEdit
+            uid={user.id}
+            url={avatarUrl}
+            onUpload={(url) => {
+              setAvatarUrl(url);
+              // updateProfile({ fullName, avatarUrl: url });
+            }}
+          />
           <TextField
             autoFocus
             margin='dense'

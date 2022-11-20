@@ -1,4 +1,4 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import {
   Avatar,
   Menu,
@@ -6,20 +6,32 @@ import {
   IconButton,
   ListItemIcon,
 } from '@mui/material';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import useAvatarImage from '../util/hooks/use-avatar-image';
 
-export default function UserAvatar({ userId }) {
+export default function HeaderAvatar() {
   const supabaseClient = useSupabaseClient();
-  const avatarUrl = useAvatarImage(userId);
+  const user = useUser();
+  const avatarUrl = useAvatarImage(user.id);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const open = Boolean(menuAnchor);
 
-  if (profile) {
+  const handleClick = (event) => {
+    setMenuAnchor(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setMenuAnchor(null);
+  };
+
+  if (true) {
     return (
       <>
         <IconButton onClick={handleClick} size='small'>
-          <Avatar src={profile.avatar_url} alt={profile.full_name} />
+          <Avatar src={avatarUrl} alt={user.id} />
         </IconButton>
         <Menu
           anchorEl={menuAnchor}
@@ -27,7 +39,7 @@ export default function UserAvatar({ userId }) {
           onClose={handleClose}
           onClick={handleClose}
         >
-          <MenuItem>
+          <MenuItem component={Link} href={'/profile'}>
             <ListItemIcon>
               <AccountBoxIcon fontSize='small' />
             </ListItemIcon>
