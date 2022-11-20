@@ -4,9 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// import Container from '@mui/material/Container';
-// import Grid from '@mui/material/Grid';
-// import cardData from '../card/cardData';
+
 
 const Product = ({ cardData }) => {
   return (
