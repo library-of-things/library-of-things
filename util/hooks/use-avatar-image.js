@@ -1,7 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useState, useEffect } from 'react';
 
-export default function useAvatarImage(userId) {
+export default function useAvatarImage(userId, bust = null) {
   const supabaseClient = useSupabaseClient();
   const [avatarUrl, setAvatarUrl] = useState(null);
 
@@ -19,7 +19,7 @@ export default function useAvatarImage(userId) {
       try {
         const { data, error } = await supabaseClient.storage
           .from('avatars')
-          .download(`${path}?bust=${Date.now()}`);
+          .download(`${path}?bust=${bust}`);
         if (error) {
           throw error;
         }
@@ -32,6 +32,7 @@ export default function useAvatarImage(userId) {
     if (userId) {
       loadProfile(userId);
     }
-  }, [userId]);
+  }, [userId, bust]);
+
   return avatarUrl;
 }

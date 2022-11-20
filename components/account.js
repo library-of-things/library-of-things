@@ -13,6 +13,7 @@ import {
   TextField,
 } from '@mui/material';
 import AvatarEdit from './avatar-edit';
+import useAvatarImage from '../util/hooks/use-avatar-image';
 
 export default function Account({ session }) {
   const supabase = useSupabaseClient();
@@ -20,7 +21,7 @@ export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState(null);
   const [username, setUsername] = useState(null);
-  const [avatarUrl, setAvatarUrl] = useState(null);
+  const avatarUrl = useAvatarImage(user.id, Date.now());
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -44,13 +45,28 @@ export default function Account({ session }) {
       if (data) {
         setUsername(data.username || data.full_name);
         setFullName(data.full_name);
-        setAvatarUrl(data.avatar_url);
+        loadAvatar(data.avatar_url);
       }
     } catch (error) {
       alert('Error loading user data!');
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function loadAvatar(path) {
+    try {
+      const { data, error } = await supabase.storage
+        .from('avatars')
+        .download(`${path}?bust=${Date.now()}`);
+      if (error) {
+        throw error;
+      }
+      const url = URL.createObjectURL(data);
+      setAvatarUrl(url);
+    } catch (error) {
+      console.error('Error downloading image: ', error);
     }
   }
 
@@ -67,6 +83,7 @@ export default function Account({ session }) {
 
       let { error } = await supabase.from('profiles').upsert(updates);
       if (error) throw error;
+      setIsEditing(false);
       alert('Profile updated');
     } catch (error) {
       alert('Error updating user data!');

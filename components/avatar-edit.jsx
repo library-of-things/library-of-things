@@ -10,33 +10,16 @@ import {
 import { useEffect, useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import useAvatarImage from '../util/hooks/use-avatar-image';
 
-export default function AvatarEdit({ uid, url, onUpload }) {
+export default function AvatarEdit({ uid, onUpload }) {
   const supabaseClient = useSupabaseClient();
-  const [avatarUrl, setAvatarUrl] = useState(null);
+  const avatarUrl = useAvatarImage(uid, Date.now());
   const [uploading, setUploading] = useState(false);
   // const user = useUser();
   // const [profile, setProfile] = useState();
 
-  useEffect(() => {
-    if (url) downloadImage(url);
-  }, [url]);
-
-  async function downloadImage(path) {
-    try {
-      const { data, error } = await supabaseClient.storage
-        .from('avatars')
-        .download(`${path}?bust=${Date.now()}`);
-      if (error) {
-        throw error;
-      }
-      const url = URL.createObjectURL(data);
-      setAvatarUrl(url);
-    } catch (error) {
-      console.error('Error downloading image: ', error);
-    }
-  }
-  const uploadAvatar = async (event) => {
+  async function uploadAvatar(event) {
     try {
       setUploading(true);
 
@@ -63,7 +46,7 @@ export default function AvatarEdit({ uid, url, onUpload }) {
     } finally {
       setUploading(false);
     }
-  };
+  }
 
   return (
     <>
