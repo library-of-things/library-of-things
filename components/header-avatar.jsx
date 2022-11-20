@@ -7,7 +7,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import useAvatarImage from '../util/hooks/use-avatar-image';
@@ -15,7 +15,7 @@ import useAvatarImage from '../util/hooks/use-avatar-image';
 export default function HeaderAvatar() {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
-  const avatarUrl = useAvatarImage(user.id);
+  const avatarUrl = useAvatarImage(user.id, true);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const open = Boolean(menuAnchor);
 

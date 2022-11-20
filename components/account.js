@@ -21,7 +21,8 @@ export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState(null);
   const [username, setUsername] = useState(null);
-  const avatarUrl = useAvatarImage(user.id, Date.now());
+  const avatarUrl = useAvatarImage(user.id, true);
+  const [uploadedAvatar, setUploadedAvatar] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -45,28 +46,13 @@ export default function Account({ session }) {
       if (data) {
         setUsername(data.username || data.full_name);
         setFullName(data.full_name);
-        loadAvatar(data.avatar_url);
+        setUploadedAvatar(data.avatar_url);
       }
     } catch (error) {
       alert('Error loading user data!');
       console.error(error);
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function loadAvatar(path) {
-    try {
-      const { data, error } = await supabase.storage
-        .from('avatars')
-        .download(`${path}?bust=${Date.now()}`);
-      if (error) {
-        throw error;
-      }
-      const url = URL.createObjectURL(data);
-      setAvatarUrl(url);
-    } catch (error) {
-      console.error('Error downloading image: ', error);
     }
   }
 
@@ -83,7 +69,6 @@ export default function Account({ session }) {
 
       let { error } = await supabase.from('profiles').upsert(updates);
       if (error) throw error;
-      setIsEditing(false);
       alert('Profile updated');
     } catch (error) {
       alert('Error updating user data!');
@@ -113,10 +98,10 @@ export default function Account({ session }) {
           </DialogContentText>
           <AvatarEdit
             uid={user.id}
-            url={avatarUrl}
+            url={uploadedAvatar}
             onUpload={(url) => {
-              setAvatarUrl(url);
-              // updateProfile({ fullName, avatarUrl: url });
+              setUploadedAvatar(url);
+              updateProfile({ avatarUrl: url });
             }}
           />
           <TextField
@@ -142,7 +127,12 @@ export default function Account({ session }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => updateProfile({ fullName, avatarUrl })}>
+          <Button
+            onClick={() => {
+              updateProfile({ fullName, avatarUrl: uploadedAvatar });
+              setIsEditing(false);
+            }}
+          >
             Update Profile
           </Button>
           <Button onClick={() => setIsEditing(false)}>Cancel</Button>

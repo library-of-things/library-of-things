@@ -1,25 +1,28 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useState, useEffect } from 'react';
 
-export default function useAvatarImage(userId, bust = null) {
+export default function useAvatarImage(userId, bust = false) {
   const supabaseClient = useSupabaseClient();
   const [avatarUrl, setAvatarUrl] = useState(null);
 
   useEffect(() => {
     async function loadProfile(userId) {
+      console.log('USER ID', userId);
       const { data } = await supabaseClient
         .from('profiles')
-        .select('avatar_url')
+        .select('avatar_url, updated_at')
         .eq('id', userId)
         .single();
-      await loadAvatar(data.avatar_url);
+      if (data.avatar_url) {
+        await loadAvatar(data.avatar_url, data.updated_at);
+      }
     }
 
-    async function loadAvatar(path) {
+    async function loadAvatar(path, updatedAt) {
       try {
         const { data, error } = await supabaseClient.storage
           .from('avatars')
-          .download(`${path}?bust=${bust}`);
+          .download(`${path}?bust=${bust ? updatedAt : null}`);
         if (error) {
           throw error;
         }

@@ -6,7 +6,6 @@ import {
   IconButton,
   ListItemIcon,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import useAvatarImage from '../util/hooks/use-avatar-image';
@@ -19,7 +18,7 @@ export default function UserAvatar({ userId }) {
     return (
       <>
         <IconButton onClick={handleClick} size='small'>
-          <Avatar src={profile.avatar_url} alt={profile.full_name} />
+          <Avatar src={avatarUrl} alt={userId} />
         </IconButton>
         <Menu
           anchorEl={menuAnchor}

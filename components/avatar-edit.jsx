@@ -1,23 +1,12 @@
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
-import {
-  Avatar,
-  Menu,
-  MenuItem,
-  IconButton,
-  ListItemIcon,
-  Button,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
-import Logout from '@mui/icons-material/Logout';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { Avatar, Button } from '@mui/material';
+import { useState } from 'react';
 import useAvatarImage from '../util/hooks/use-avatar-image';
 
 export default function AvatarEdit({ uid, onUpload }) {
   const supabaseClient = useSupabaseClient();
-  const avatarUrl = useAvatarImage(uid, Date.now());
+  const avatarUrl = useAvatarImage(uid, true);
   const [uploading, setUploading] = useState(false);
-  // const user = useUser();
-  // const [profile, setProfile] = useState();
 
   async function uploadAvatar(event) {
     try {

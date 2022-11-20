@@ -5,6 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 
+import Layout from '../components/layout';
+
 const theme = createTheme();
 export default function MyApp({ Component, pageProps }) {
   const [supabase] = useState(() => createBrowserSupabaseClient());
@@ -16,7 +18,9 @@ export default function MyApp({ Component, pageProps }) {
     >
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </SessionContextProvider>
   );
