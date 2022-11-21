@@ -9,7 +9,6 @@ import ShowItemModal from '.././components/modal/modal';
 export default function Home() {
   return (
     <>
-			<ShowItemModal/>
 				<Grid 
 				paddingLeft= "0"
 				container spacing={2} 
