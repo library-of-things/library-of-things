@@ -14,32 +14,7 @@ export default function UserAvatar({ userId }) {
   const supabaseClient = useSupabaseClient();
   const avatarUrl = useAvatarImage(userId);
 
-  if (profile) {
-    return (
-      <>
-        <IconButton onClick={handleClick} size='small'>
-          <Avatar src={avatarUrl} alt={userId} />
-        </IconButton>
-        <Menu
-          anchorEl={menuAnchor}
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-        >
-          <MenuItem>
-            <ListItemIcon>
-              <AccountBoxIcon fontSize='small' />
-            </ListItemIcon>
-            Profile
-          </MenuItem>
-          <MenuItem onClick={() => supabaseClient.auth.signOut()}>
-            <ListItemIcon>
-              <Logout fontSize='small' />
-            </ListItemIcon>
-            Log Out
-          </MenuItem>
-        </Menu>
-      </>
-    );
+  if (avatarUrl) {
+    return <Avatar src={avatarUrl} alt={userId} />;
   }
 }

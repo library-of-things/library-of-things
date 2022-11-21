@@ -59,7 +59,7 @@ export default function HeaderAvatar() {
           onClose={handleClose}
           onClick={handleClose}
         >
-          <MenuItem component={Link} href={'/profile'}>
+          <MenuItem component={Link} href={'/profiles'}>
             <ListItemIcon>
               <AccountBoxIcon fontSize='small' />
             </ListItemIcon>

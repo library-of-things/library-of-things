@@ -20,7 +20,6 @@ export default function Account({ session }) {
   const user = useUser();
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState(null);
-  const [username, setUsername] = useState(null);
   const avatarUrl = useAvatarImage(user.id, true);
   const [uploadedAvatar, setUploadedAvatar] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +34,7 @@ export default function Account({ session }) {
 
       let { data, error, status } = await supabase
         .from('profiles')
-        .select(`username, full_name, avatar_url`)
+        .select(`full_name, avatar_url`)
         .eq('id', user.id)
         .single();
 
@@ -44,7 +43,6 @@ export default function Account({ session }) {
       }
 
       if (data) {
-        setUsername(data.username || data.full_name);
         setFullName(data.full_name);
         setUploadedAvatar(data.avatar_url);
       }
@@ -56,7 +54,7 @@ export default function Account({ session }) {
     }
   }
 
-  async function updateProfile({ username, fullName, avatarUrl }) {
+  async function updateProfile({ fullName, avatarUrl }) {
     try {
       setLoading(true);
 
@@ -86,7 +84,6 @@ export default function Account({ session }) {
         <Box>
           <Avatar alt={fullName} src={avatarUrl} />
           <Typography>{fullName}</Typography>
-          <Typography>{username}</Typography>
           <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
         </Box>
       )}
