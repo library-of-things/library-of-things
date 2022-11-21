@@ -1,7 +1,8 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { Container, Typography } from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import Account from '../../components/account';
+import Account from '../components/account';
+import MyProfile from '../components/profile/profile';
 
 export default function Profile() {
   const session = useSession();
@@ -17,8 +18,8 @@ export default function Profile() {
         />
       ) : (
         <Container>
-          <Typography>Account page will go here!</Typography>
-          <Account />
+          <MyProfile />
+          {/* <Account /> */}
         </Container>
       )}
     </Container>
