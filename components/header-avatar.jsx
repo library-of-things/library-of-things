@@ -3,19 +3,22 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  IconButton,
   ListItemIcon,
+  ListItemText,
+  ButtonBase,
 } from '@mui/material';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logout from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import useAvatarImage from '../util/hooks/use-avatar-image';
 
 export default function HeaderAvatar() {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
   const avatarUrl = useAvatarImage(user.id, true);
+  const [fullName, setFullName] = useState(null);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const open = Boolean(menuAnchor);
 
@@ -27,12 +30,29 @@ export default function HeaderAvatar() {
     setMenuAnchor(null);
   };
 
-  if (true) {
+  useEffect(() => {
+    async function fetchProfile() {
+      let { data, error, status } = await supabaseClient
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single();
+
+      if (error && status !== 406) {
+        throw error;
+      }
+      if (data) setFullName(data.full_name);
+    }
+    fetchProfile();
+  }, [supabaseClient, user]);
+
+  if (user) {
     return (
       <>
-        <IconButton onClick={handleClick} size='small'>
+        <ButtonBase onClick={handleClick} size='small'>
           <Avatar src={avatarUrl} alt={user.id} />
-        </IconButton>
+          <ArrowDropDownIcon />
+        </ButtonBase>
         <Menu
           anchorEl={menuAnchor}
           open={open}
@@ -43,7 +63,7 @@ export default function HeaderAvatar() {
             <ListItemIcon>
               <AccountBoxIcon fontSize='small' />
             </ListItemIcon>
-            Profile
+            <ListItemText primary={fullName} secondary='View Profile' />
           </MenuItem>
           <MenuItem onClick={() => supabaseClient.auth.signOut()}>
             <ListItemIcon>
