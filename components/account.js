@@ -12,6 +12,8 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+import AvatarEdit from './avatar-edit';
+import useAvatarImage from '../util/hooks/use-avatar-image';
 
 export default function Account({ session }) {
   const supabase = useSupabaseClient();
@@ -19,7 +21,8 @@ export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
   const [fullName, setFullName] = useState(null);
   const [username, setUsername] = useState(null);
-  const [avatarUrl, setAvatarUrl] = useState(null);
+  const avatarUrl = useAvatarImage(user.id, true);
+  const [uploadedAvatar, setUploadedAvatar] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function Account({ session }) {
       if (data) {
         setUsername(data.username || data.full_name);
         setFullName(data.full_name);
-        setAvatarUrl(data.avatar_url);
+        setUploadedAvatar(data.avatar_url);
       }
     } catch (error) {
       alert('Error loading user data!');
@@ -93,6 +96,14 @@ export default function Account({ session }) {
           <DialogContentText>
             Edit your Library of Things profile.
           </DialogContentText>
+          <AvatarEdit
+            uid={user.id}
+            url={uploadedAvatar}
+            onUpload={(url) => {
+              setUploadedAvatar(url);
+              updateProfile({ avatarUrl: url });
+            }}
+          />
           <TextField
             autoFocus
             margin='dense'
@@ -116,7 +127,12 @@ export default function Account({ session }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => updateProfile({ fullName, avatarUrl })}>
+          <Button
+            onClick={() => {
+              updateProfile({ fullName, avatarUrl: uploadedAvatar });
+              setIsEditing(false);
+            }}
+          >
             Update Profile
           </Button>
           <Button onClick={() => setIsEditing(false)}>Cancel</Button>
