@@ -7,7 +7,6 @@ export default function useAvatarImage(userId, bust = false) {
 
   useEffect(() => {
     async function loadProfile(userId) {
-      console.log('USER ID', userId);
       const { data } = await supabaseClient
         .from('profiles')
         .select('avatar_url, updated_at')

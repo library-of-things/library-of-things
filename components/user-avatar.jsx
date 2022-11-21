@@ -15,8 +15,6 @@ export default function UserAvatar({ userId }) {
   const avatarUrl = useAvatarImage(userId);
 
   if (avatarUrl) {
-    return (
-          <Avatar src={avatarUrl} alt={userId} />
-    );
+    return <Avatar src={avatarUrl} alt={userId} />;
   }
 }
