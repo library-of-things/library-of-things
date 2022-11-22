@@ -1,5 +1,5 @@
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, Stack, Container, Box } from '@mui/material';
 import { useState } from 'react';
 import useAvatarImage from '../util/hooks/use-avatar-image';
 
@@ -38,12 +38,23 @@ export default function AvatarEdit({ uid, onUpload }) {
   }
 
   return (
-    <>
-      <Avatar src={avatarUrl} alt={uid} sx={{ width: 100, height: 100 }} />
-      <Button variant='contained' component='label' disabled={uploading}>
+    <Stack spacing={2}>
+      <Container maxWidth='lg'>
+        <Avatar
+          src={avatarUrl}
+          alt={uid}
+          sx={{ borderRadius: 2, width: 200, height: 200 }}
+        />
+      </Container>
+      <Button
+        color='secondary'
+        variant='contained'
+        component='label'
+        disabled={uploading}
+      >
         Upload avatar{' '}
         <input type='file' accept='image/*' onChange={uploadAvatar} hidden />
       </Button>
-    </>
+    </Stack>
   );
 }

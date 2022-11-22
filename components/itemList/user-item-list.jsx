@@ -5,20 +5,22 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import cardData from './cardData';
 import Container from '@mui/material/Container'; // Grid version 2
 import Link from 'next/link';
 import { ButtonBase } from '@mui/material';
 import Image from 'next/image';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
-export default function Product() {
+export default function UserItemList({ userId }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
 
   useEffect(() => {
     async function loadItems() {
-      const { data, error } = await supabase.from('items').select('*');
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('owner_id', userId);
 
       if (error) {
         throw error;
@@ -47,7 +49,7 @@ export default function Product() {
           sx={{
             mb: 8,
             gridTemplateColumns:
-              'repeat(auto-fill, minmax(280px, 1fr))!important',
+              'repeat(auto-fill, minmax(200px, 1fr))!important',
           }}
         >
           {items.map((item) => (

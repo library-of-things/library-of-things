@@ -86,9 +86,9 @@ export default function AccountEdit({ session }) {
       <Dialog open={isEditing} onClose={() => setIsEditing(false)}>
         <DialogTitle>Edit Profile</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText mb={2}>
             Edit your Library of Things profile.
-          </DialogContentText>
+          </DialogContentText> */}
           <AvatarEdit
             uid={user.id}
             url={uploadedAvatar}
@@ -125,10 +125,13 @@ export default function AccountEdit({ session }) {
               updateProfile({ fullName, avatarUrl: uploadedAvatar });
               setIsEditing(false);
             }}
+            variant='contained'
           >
             Update Profile
           </Button>
-          <Button onClick={() => setIsEditing(false)}>Cancel</Button>
+          <Button onClick={() => setIsEditing(false)} variant='contained'>
+            Cancel
+          </Button>
         </DialogActions>
       </Dialog>
     </>
