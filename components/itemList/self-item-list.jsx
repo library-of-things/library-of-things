@@ -5,21 +5,24 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
-import cardData from './cardData';
 import Container from '@mui/material/Container'; // Grid version 2
 import Link from 'next/link';
-import { ButtonBase } from '@mui/material';
+import { ButtonBase, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Image from 'next/image';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
-export default function Product() {
+export default function SelfItemList({ userId }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
-
+  const [deletedItem, setDeletedItem] = useState(null);
 
   useEffect(() => {
     async function loadItems() {
-      const { data, error } = await supabase.from('items').select('*');
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('owner_id', userId);
 
       if (error) {
         throw error;
@@ -27,10 +30,15 @@ export default function Product() {
       setItems(data);
     }
 
-
     loadItems();
-  }, [supabase]);
+  }, [supabase, deletedItem]);
 
+  async function deleteItem(itemId) {
+    const { data, error } = await supabase
+      .from('items')
+      .delete()
+      .eq('id', itemId);
+  }
 
   if (items)
     return (
@@ -50,7 +58,7 @@ export default function Product() {
           sx={{
             mb: 8,
             gridTemplateColumns:
-              'repeat(auto-fill, minmax(280px, 1fr))!important',
+              'repeat(auto-fill, minmax(200px, 1fr))!important',
           }}
         >
           {items.map((item) => (
@@ -70,6 +78,18 @@ export default function Product() {
                   title={item.name}
                   subtitle={<span>by: {item.description}</span>}
                   position='below'
+                  actionIcon={
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setDeletedItem(item);
+                        deleteItem(item.id);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  }
                 />
               </ImageListItem>
             </ButtonBase>

@@ -49,7 +49,7 @@ export default function HeaderAvatar() {
   if (user) {
     return (
       <>
-        <ButtonBase onClick={handleClick} size='small'>
+        <ButtonBase onClick={handleClick} size='small' sx={{ padding: 1 }}>
           <Avatar src={avatarUrl} alt={user.id} />
           <ArrowDropDownIcon />
         </ButtonBase>
@@ -59,7 +59,7 @@ export default function HeaderAvatar() {
           onClose={handleClose}
           onClick={handleClose}
         >
-          <MenuItem component={Link} href={'/profiles'}>
+          <MenuItem component={Link} href={`/profiles/${user.id}`}>
             <ListItemIcon>
               <AccountBoxIcon fontSize='small' />
             </ListItemIcon>
