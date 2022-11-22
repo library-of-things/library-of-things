@@ -7,13 +7,21 @@ import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import { Description } from '@mui/icons-material';
 
+const getImage = async() => {
+	let { data: items, error } = await supabase
+	.from('items')
+	.select('image_url')
+}
 
 const Item = ({ cardData }) => {
   return (
     <>
 			<Box>
-				<Typography>${`itemName`}</Typography>
-				<Stack><Typography>Reviews</Typography><Typography>Location</Typography></Stack>
+				<Typography>Horse Trailer</Typography>
+				<Stack direction="row" spacing={2}>
+					<Typography>Reviews: </Typography>
+					<Typography>Location: </Typography>
+				</Stack>
 			</Box>
 
 				<Card sx={{ height: 250, width: 350 }}>
@@ -26,15 +34,15 @@ const Item = ({ cardData }) => {
 				</Card>
 				<Box>
 					<Box>
+					<Box>
+						PROFILE PIC
+					</Box>
 						<Typography>Item hosted by ${`ownerName`}</Typography>
 						<Typography>Description: ${`Description`}</Typography>
 						<Typography>Condition: ${`condition`}</Typography>
 						<Typography>Times Lent: ${`timesLent`}</Typography>
 						<Typography>Availability: ${`availability`}</Typography>
 						<Button>Contact Owner</Button>
-					</Box>
-					<Box>
-						PROFILE PIC
 					</Box>
 				</Box>
     </>
