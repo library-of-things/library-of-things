@@ -5,6 +5,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import HeaderAvatar from './header-avatar';
 import Link from 'next/link';
 
@@ -22,6 +26,16 @@ export default function Navbar() {
               <Typography variant='h6'>Cup of Sugar</Typography>
             </ButtonBase>
           </Box>
+          <Tooltip title='Add a new item'>
+            <IconButton component={Link} href='/newitem'>
+              <AddCircleOutlineIcon size='lg' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title='View messages'>
+            <IconButton component={Link} href='/messages'>
+              <MailOutlineIcon size='lg' />
+            </IconButton>
+          </Tooltip>
           <Button component={Link} href='community' sx={{ color: '#fff' }}>
             Community
           </Button>
