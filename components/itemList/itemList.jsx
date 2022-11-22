@@ -16,6 +16,7 @@ export default function Product() {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
 
+
   useEffect(() => {
     async function loadItems() {
       const { data, error } = await supabase.from('items').select('*');
@@ -26,8 +27,10 @@ export default function Product() {
       setItems(data);
     }
 
+
     loadItems();
   }, [supabase]);
+
 
   if (items)
     return (
