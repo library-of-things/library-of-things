@@ -105,7 +105,7 @@ export default function Navbar() {
           <List>
             {categories.map((category) => (
               <ListItem key={category.id} disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => setDrawerOpen(false)} component={Link} href={`/community?cat=${category.id}`}>
                   <ListItemText primary={category.name} />
                 </ListItemButton>
               </ListItem>
