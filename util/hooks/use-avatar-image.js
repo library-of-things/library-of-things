@@ -12,7 +12,7 @@ export default function useAvatarImage(userId, bust = false) {
         .select('avatar_url, updated_at')
         .eq('id', userId)
         .single();
-      if (data.avatar_url) {
+      if (data?.avatar_url) {
         await loadAvatar(data.avatar_url, data.updated_at);
       }
     }

@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
-import Product from '../card/card'
+import Product from '../itemList/itemList'
 import UserAvatar from '../user-avatar';
 import { useUser } from '@supabase/auth-helpers-react';
 
