@@ -18,26 +18,28 @@ export default function SelfItemList({ userId }) {
   const [deletedItem, setDeletedItem] = useState(null);
 
   useEffect(() => {
-    async function loadItems() {
-      const { data, error } = await supabase
-        .from('items')
-        .select('*')
-        .eq('owner_id', userId);
-
-      if (error) {
-        throw error;
-      }
-      setItems(data);
-    }
-
     loadItems();
-  }, [supabase, deletedItem]);
+  }, []);
+
+  async function loadItems() {
+    const { data, error } = await supabase
+      .from('items')
+      .select('*')
+      .eq('owner_id', userId);
+
+    if (error) {
+      throw error;
+    }
+    setItems(data);
+  }
 
   async function deleteItem(itemId) {
     const { data, error } = await supabase
       .from('items')
       .delete()
       .eq('id', itemId);
+
+    await loadItems();
   }
 
   if (items)
@@ -83,8 +85,9 @@ export default function SelfItemList({ userId }) {
                       onClick={(e) => {
                         e.stopPropagation();
                         e.preventDefault();
-                        setDeletedItem(item);
+                        const deleted = item;
                         deleteItem(item.id);
+                        setDeletedItem(deleted);
                       }}
                     >
                       <DeleteIcon />
