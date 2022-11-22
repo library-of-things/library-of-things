@@ -3,7 +3,6 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import {
   Typography,
   Box,
-  Avatar,
   Dialog,
   DialogContent,
   DialogContentText,
@@ -15,7 +14,7 @@ import {
 import AvatarEdit from './avatar-edit';
 import useAvatarImage from '../util/hooks/use-avatar-image';
 
-export default function Account({ session }) {
+export default function AccountEdit({ session }) {
   const supabase = useSupabaseClient();
   const user = useUser();
   const [loading, setLoading] = useState(true);
@@ -78,15 +77,12 @@ export default function Account({ session }) {
 
   return (
     <>
-      {loading ? (
-        <Typography>LOADING</Typography>
-      ) : (
-        <Box>
-          <Avatar alt={fullName} src={avatarUrl} />
-          <Typography>{fullName}</Typography>
-          <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
-        </Box>
-      )}
+      <Box>
+        <Button variant='contained' onClick={() => setIsEditing(true)}>
+          Edit Profile
+        </Button>
+      </Box>
+
       <Dialog open={isEditing} onClose={() => setIsEditing(false)}>
         <DialogTitle>Edit Profile</DialogTitle>
         <DialogContent>
