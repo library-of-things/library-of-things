@@ -1,5 +1,5 @@
 import DrawerAppBar from '../components/navbar';
-import ImgMediaCard from '../components/card/card';
+import ImgMediaCard from '../components/itemList/itemList';
 
 export default function Home() {
   return (
