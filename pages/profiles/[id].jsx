@@ -17,7 +17,7 @@ export default function Profile() {
   const profile = useProfile(id);
   const avatarUrl = useAvatarImage(id);
 
-  if (id)
+  if (id && profile)
     return (
       <Container>
         <Container>

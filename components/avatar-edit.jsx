@@ -39,7 +39,10 @@ export default function AvatarEdit({ uid, onUpload }) {
 
   return (
     <Stack spacing={2}>
-      <Container maxWidth='lg'>
+      <Container
+        maxWidth='lg'
+        sx={{ display: 'flex', justifyContent: 'center' }}
+      >
         <Avatar
           src={avatarUrl}
           alt={uid}
