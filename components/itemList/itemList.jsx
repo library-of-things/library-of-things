@@ -20,13 +20,12 @@ export default function ItemList({ initialQuery }) {
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(null);
-  
+
   useEffect(() => {
     if (initialQuery.cat) {
-      setCurrentCategory(parseInt(initialQuery.cat))
-
+      setCurrentCategory(parseInt(initialQuery.cat));
     }
-  }, [initialQuery])
+  }, [initialQuery]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -39,11 +38,12 @@ export default function ItemList({ initialQuery }) {
     if (supabase) fetchCategories();
 
     async function loadItems() {
-      let query = supabase.from('items').select('*')
+      let query = supabase.from('items').select('*');
 
-      if (currentCategory) { query = query.eq('category_id', currentCategory)}
+      if (currentCategory) {
+        query = query.eq('category_id', currentCategory);
+      }
 
-      // const { data, error } = await supabase.from('items').select('*');
       const { data, error } = await query;
       if (error) {
         throw error;
@@ -53,31 +53,32 @@ export default function ItemList({ initialQuery }) {
     loadItems();
   }, [currentCategory]);
 
-
   if (categories)
     return (
       <>
         <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              '& > *': {
-                m: 1,
-              },
-            }}
-          >
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            '& > *': {
+              m: 1,
+            },
+          }}
+        >
           <ButtonGroup>
             {categories.map((cat) => (
-              <Button 
+              <Button
                 variant='contained'
                 color={currentCategory === cat.id ? 'secondary' : 'primary'}
                 key={`category-${cat.id}`}
                 onClick={() => {
-                  setCurrentCategory(currentCategory === cat.id ? null : cat.id)
+                  setCurrentCategory(
+                    currentCategory === cat.id ? null : cat.id
+                  );
                 }}
-                >
-                  {cat.name}
+              >
+                {cat.name}
               </Button>
             ))}
           </ButtonGroup>
@@ -93,7 +94,7 @@ export default function ItemList({ initialQuery }) {
           alignitems='center'
           justifyitems='center'
         >
-          {items &&
+          {items && (
             <ImageList
               gap={12}
               sx={{
@@ -113,7 +114,11 @@ export default function ItemList({ initialQuery }) {
                     key={item.id}
                     style={{ borderRadius: '5' }}
                   >
-                    <img src={`${item.image_url}`} alt={item.name} loading='lazy' />
+                    <img
+                      src={`${item.image_url}`}
+                      alt={item.name}
+                      loading='lazy'
+                    />
 
                     <ImageListItemBar
                       title={item.name}
@@ -124,7 +129,7 @@ export default function ItemList({ initialQuery }) {
                 </ButtonBase>
               ))}
             </ImageList>
-          }
+          )}
         </Container>
       </>
     );

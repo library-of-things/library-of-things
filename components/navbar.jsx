@@ -12,6 +12,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -42,14 +43,18 @@ export default function Navbar() {
     <>
       <AppBar component='nav'>
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}>
-            <IconButton
-              sx={{ marginRight: 2 }}
-              onClick={() => setDrawerOpen(true)}
+          <IconButton
+            sx={{ marginRight: 2 }}
+            onClick={() => setDrawerOpen(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box sx={{ flexGrow: 1 }}>
+            <ButtonBase
+              component={Link}
+              href='/'
+              sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
             >
-              <MenuIcon />
-            </IconButton>
-            <ButtonBase component={Link} href='/'>
               <Typography color='#EAE1DF' variant='h6' mr={1}>
                 Library
               </Typography>
@@ -95,7 +100,7 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
       <Toolbar />
-      <Toolbar />
+      {/* <Toolbar /> */}
       <Drawer
         anchor='left'
         open={drawerOpen}
@@ -103,9 +108,23 @@ export default function Navbar() {
       >
         {categories && (
           <List>
+            <ListItem key={'home-button'} disablePadding>
+              <ListItemButton
+                onClick={() => setDrawerOpen(false)}
+                component={Link}
+                href={`/`}
+              >
+                <ListItemText primary={'Home'} />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
             {categories.map((category) => (
               <ListItem key={category.id} disablePadding>
-                <ListItemButton onClick={() => setDrawerOpen(false)} component={Link} href={`/community?cat=${category.id}`}>
+                <ListItemButton
+                  onClick={() => setDrawerOpen(false)}
+                  component={Link}
+                  href={`/community?cat=${category.id}`}
+                >
                   <ListItemText primary={category.name} />
                 </ListItemButton>
               </ListItem>
