@@ -95,7 +95,7 @@ export default function Navbar() {
               variant='contained'
               component={Link}
               href='/login'
-              sx={{ ml: 2 }}
+              sx={{ ml: 1 }}
             >
               Login
             </Button>
