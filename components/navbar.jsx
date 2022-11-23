@@ -115,22 +115,26 @@ export default function Navbar() {
               </Typography>
             </ButtonBase>
           </Box>
-          <Tooltip title='New item'>
-            <IconButton component={Link} href='/newitem'>
-              <AddCircleOutlineIcon size='lg' />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='View messages'>
-            <IconButton
-              component={Link}
-              href='/messages'
-              onClick={() => setMessageCount(0)}
-            >
-              <Badge badgeContent={messageCount} color='primary'>
-                <MailOutlineIcon size='lg' />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+          {user && (
+            <>
+              <Tooltip title='New item'>
+                <IconButton component={Link} href='/newitem'>
+                  <AddCircleOutlineIcon size='lg' />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title='View messages'>
+                <IconButton
+                  component={Link}
+                  href='/messages'
+                  onClick={() => setMessageCount(0)}
+                >
+                  <Badge badgeContent={messageCount} color='primary'>
+                    <MailOutlineIcon size='lg' />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+            </>
+          )}
           <Tooltip title='Community'>
             <IconButton component={Link} href='/community'>
               <AutoStoriesIcon />
