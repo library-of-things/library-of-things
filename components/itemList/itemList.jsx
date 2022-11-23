@@ -23,6 +23,7 @@ export default function ItemList({ initialQuery }) {
 
   useEffect(() => {
     if (initialQuery.cat) {
+      console.log(initialQuery);
       setCurrentCategory(parseInt(initialQuery.cat));
     }
   }, [initialQuery]);
@@ -32,10 +33,8 @@ export default function ItemList({ initialQuery }) {
       const { data: categories } = await supabase
         .from('categories')
         .select('id, name, description');
-      console.log(categories);
       setCategories(categories);
     }
-    if (supabase) fetchCategories();
 
     async function loadItems() {
       let query = supabase.from('items').select('*');
@@ -50,7 +49,10 @@ export default function ItemList({ initialQuery }) {
       }
       setItems(data);
     }
-    loadItems();
+    if (supabase) {
+      fetchCategories();
+      loadItems();
+    }
   }, [currentCategory]);
 
   if (categories)

@@ -26,8 +26,8 @@ export default function Profile() {
 
   if (id && profile)
     return (
-      <Container>
-        <Paper elevation={0.8} sx={{ padding: 4 }}>
+      <Box>
+        <Paper elevation={1} sx={{ padding: 4, width: '100vw' }}>
           <Container
             sx={{
               display: 'flex',
@@ -111,7 +111,7 @@ export default function Profile() {
                 </Paper>
               </Stack>
               <Stack>
-                <Paper sx={{ padding: 1 }}>
+                <Paper elevation={2} sx={{ padding: 1 }}>
                   <Typography>Member since:</Typography>
                   <Typography>
                     {new Date(profile.join_date).toLocaleDateString()}
@@ -128,6 +128,6 @@ export default function Profile() {
           <UserItemList userId={id} />
         )}
         {user && user.id === id && <AccountEdit />}
-      </Container>
+      </Box>
     );
 }
