@@ -12,6 +12,9 @@ import Container from '@mui/material/Container'; // Grid version 2
 import Link from 'next/link';
 import { ButtonBase } from '@mui/material';
 import Image from 'next/image';
+// import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
+
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
 
@@ -63,9 +66,8 @@ export default function ItemList({ initialQuery }) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            '& > *': {
-              m: 1,
-            },
+            height: '100%',
+            m: 1,
           }}
         >
           <ButtonGroup>
@@ -85,52 +87,48 @@ export default function ItemList({ initialQuery }) {
             ))}
           </ButtonGroup>
         </Box>
-        <Container
-          container
-          spacing={2}
-          xs={12}
-          sm={6}
-          md={4}
-          xl={3}
-          padding='1vw'
-          alignitems='center'
-          justifyitems='center'
-        >
+        <Container>
           {items && (
-            <ImageList
-              gap={12}
-              sx={{
-                mb: 8,
-                gridTemplateColumns:
-                  'repeat(auto-fill, minmax(280px, 1fr))!important',
-              }}
-            >
+            <Grid container spacing={8}>
               {items.map((item) => (
-                <ButtonBase
+                <Grid
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  gap={2}
+                  sx={{
+                    overflow: 'hidden',
+                  }}
                   key={item.id}
-                  component={Link}
-                  href={`/items/${item.id}`}
                 >
-                  <ImageListItem
-                    sx={{ height: '100% !important' }}
+                  <ButtonBase
                     key={item.id}
-                    style={{ borderRadius: '5' }}
+                    component={Link}
+                    href={`/items/${item.id}`}
+                    sx={{ display: 'flex', flexDirection: 'column' }}
                   >
-                    <img
+                    <Image
                       src={`${item.image_url}`}
+                      // fill
+                      width={300}
+                      height={500}
                       alt={item.name}
-                      loading='lazy'
+                      style={{ objectFit: 'cover', borderRadius: 8 }}
+                      // loading='lazy'
                     />
-
-                    <ImageListItemBar
-                      title={item.name}
-                      subtitle={<span>by: {item.description}</span>}
-                      position='below'
-                    />
-                  </ImageListItem>
-                </ButtonBase>
+                  </ButtonBase>
+                  <Box>
+                    <Typography variant='h6' noWrap>
+                      {item.name}
+                    </Typography>
+                    <Typography variant='caption' noWrap>
+                      {item.description}
+                    </Typography>
+                  </Box>
+                </Grid>
               ))}
-            </ImageList>
+            </Grid>
           )}
         </Container>
       </>
