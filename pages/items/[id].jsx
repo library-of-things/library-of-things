@@ -1,22 +1,98 @@
-import { Container, Typography, Avatar } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Avatar,
+  Box,
+  Card,
+  CardMedia,
+  Stack,
+  Button,
+  ButtonBase,
+  Paper,
+  Chip,
+} from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import useAvatarImage from '../../util/hooks/use-avatar-image';
-import useProfile from '../../util/hooks/use-profile';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function ItemPage({ user, data }) {
+  const supabase = useSupabaseClient();
   const router = useRouter();
-  // const { id } = router.query;
-  // const profile = useProfile(id);
-  // const avatarUrl = useAvatarImage(id);
+  const ownerAvatar = useAvatarImage(data.owner.id);
+
+  async function startChat() {
+    const { data: thread, error } = await supabase
+      .from('threads')
+      .insert({
+        sender_id: user.id,
+        receiver_id: data.owner.id,
+        item_id: data.id,
+      })
+      .select()
+      .single();
+    console.log(thread.id);
+    router.push(`/messages/${thread.id}`);
+  }
 
   return (
-    <Container>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </Container>
+    <Box>
+      <Paper sx={{ padding: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { sm: 'column', md: 'row-reverse' },
+            alignItems: { sm: 'center', md: 'flex-start' },
+          }}
+        >
+          <Container sx={{ flexGrow: 1 }}>
+            <Typography variant='h4'>{data.name}</Typography>
+            <Chip label={data.category} />
+            {/* <Typography variant='h6'>{data.category}</Typography> */}
+          </Container>
+          <Box
+            sx={{
+              borderRadius: 4,
+              height: '500px',
+              width: '400px',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <Image
+              style={{ objectFit: 'cover' }}
+              alt={data.name}
+              fill
+              src={data.image_url}
+            />
+          </Box>
+        </Box>
+      </Paper>
+
+      <Box>
+        <Box>
+          <Typography>Description: {data.description}</Typography>
+          <Typography>Condition: {data.condition}</Typography>
+          <Typography>Times Lent: {data.times_shared}</Typography>
+          <Typography>
+            Availability: {data.borrower_id ? 'Unavailable' : 'Available'}
+          </Typography>
+        </Box>
+        <Box>
+          <Typography>{data.owner.full_name}</Typography>
+          <ButtonBase component={Link} href={`/profiles/${data.owner.id}`}>
+            <Avatar src={ownerAvatar} alt={data.owner.full_name} />
+          </ButtonBase>
+          <Button variant='contained' onClick={startChat}>
+            Contact owner
+          </Button>
+        </Box>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </Box>
+    </Box>
   );
 }
 

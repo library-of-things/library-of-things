@@ -6,6 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test start http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless",
     "lint": "next lint"
   },
   "dependencies": {
@@ -31,6 +35,7 @@
     "typescript": "4.9.3"
   },
   "devDependencies": {
-    "@mui/types": "^7.2.1"
+    "@mui/types": "^7.2.1",
+    "cypress": "^11.2.0"
   }
 }

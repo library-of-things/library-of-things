@@ -1,7 +1,42 @@
-import { createTheme } from '@mui/material/styles';
-@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;300;400;500;600;700family=Spectral:wght@200;300;400;500;600;700&display=swap');
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-const theme = createTheme({
+let theme = createTheme({
+  typography: {
+    fontFamily: ['Karla', 'Spectral'].join(','),
+    h1: {
+      fontFamily: 'Karla',
+      letterSpacing: 1.5,
+    },
+    h2: {
+      fontFamily: 'Karla',
+    },
+    h3: {
+      fontFamily: 'Karla',
+    },
+    h4: {
+      fontFamily: 'Karla',
+    },
+    h5: {
+      fontFamily: 'Karla',
+    },
+    h6: {
+      fontFamily: 'Karla',
+      textTransform: 'uppercase',
+      letterSpacing: 1.5,
+    },
+    body1: {
+      fontFamily: 'Spectral',
+    },
+    body2: {
+      fontFamily: 'Karla',
+    },
+    caption: {
+      fontFamily: 'Spectral',
+    },
+    button: {
+      fontFamily: 'Karla',
+    },
+  },
   palette: {
     mode: 'dark',
     primary: {
@@ -12,5 +47,7 @@ const theme = createTheme({
     },
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 export default theme;

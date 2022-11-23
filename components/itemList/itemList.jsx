@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
+import Box from '@mui/material/Box';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
@@ -9,47 +11,126 @@ import cardData from './cardData';
 import Container from '@mui/material/Container'; // Grid version 2
 import Link from 'next/link';
 import { ButtonBase } from '@mui/material';
+import Image from 'next/image';
+// import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 
-export default function Product(){
-	return (
-		<Container
-			maxWidth="xl"
-			// xs={12} sm={6} md={4}  xl={3}
-			padding= "1vw"
-			alignItems="center"
-			justifyItems="center">
-			
-			<ImageList 
-				gap={12}
-        sx={{
-          mb: 8,
-          gridTemplateColumns:
-            'repeat(auto-fill, minmax(300px, 1fr))!important',
-        }}>
-				{cardData.map((item) => (
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useEffect, useState } from 'react';
 
-				<ButtonBase key={item._id} component={Link}  href='/items/_id'>
+export default function ItemList({ initialQuery }) {
+  const supabase = useSupabaseClient();
+  const [items, setItems] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState(null);
 
-					<ImageListItem sx={{ height: '100% !important' }} key={item.img} >
+  useEffect(() => {
+    if (initialQuery.cat) {
+      console.log(initialQuery);
+      setCurrentCategory(parseInt(initialQuery.cat));
+    }
+  }, [initialQuery]);
 
-						<img
-							src={`${item.img}?w=248&fit=crop&auto=format`}
-							srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-							style={{ borderRadius: 12 }}
-							alt={cardData.name}
-							loading="lazy"
-						/>
+  useEffect(() => {
+    async function fetchCategories() {
+      const { data: categories } = await supabase
+        .from('categories')
+        .select('id, name, description');
+      setCategories(categories);
+    }
 
-					<ImageListItemBar
-							title={item.name}
-							subtitle={<span>{item.description}</span>}
-							position="below"
-						/>
+    async function loadItems() {
+      let query = supabase.from('items').select('*');
 
-					</ImageListItem>
-				</ButtonBase>	
-				))}
-			</ImageList>
-		</Container>	
-	);
+      if (currentCategory) {
+        query = query.eq('category_id', currentCategory);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        throw error;
+      }
+      setItems(data);
+    }
+    if (supabase) {
+      fetchCategories();
+      loadItems();
+    }
+  }, [currentCategory]);
+
+  if (categories)
+    return (
+      <>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '100%',
+            m: 1,
+          }}
+        >
+          <ButtonGroup>
+            {categories.map((cat) => (
+              <Button
+                variant='contained'
+                color={currentCategory === cat.id ? 'secondary' : 'primary'}
+                key={`category-${cat.id}`}
+                onClick={() => {
+                  setCurrentCategory(
+                    currentCategory === cat.id ? null : cat.id
+                  );
+                }}
+              >
+                {cat.name}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </Box>
+        <Container>
+          {items && (
+            <Grid container spacing={8}>
+              {items.map((item) => (
+                <Grid
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  gap={2}
+                  sx={{
+                    overflow: 'hidden',
+                  }}
+                  key={item.id}
+                >
+                  <ButtonBase
+                    key={item.id}
+                    component={Link}
+                    href={`/items/${item.id}`}
+                    sx={{ display: 'flex', flexDirection: 'column' }}
+                  >
+                    <Image
+                      src={`${item.image_url}`}
+                      // fill
+                      width={300}
+                      height={500}
+                      alt={item.name}
+                      style={{ objectFit: 'cover', borderRadius: 8 }}
+                      // loading='lazy'
+                    />
+                  </ButtonBase>
+                  <Box>
+                    <Typography variant='h6' noWrap>
+                      {item.name}
+                    </Typography>
+                    <Typography variant='caption' noWrap>
+                      {item.description}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Container>
+      </>
+    );
 }
