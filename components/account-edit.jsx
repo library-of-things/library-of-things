@@ -78,7 +78,11 @@ export default function AccountEdit({ session }) {
   return (
     <>
       <Box>
-        <Button variant='contained' onClick={() => setIsEditing(true)}>
+        <Button
+          variant='contained'
+          onClick={() => setIsEditing(true)}
+          color='secondary'
+        >
           Edit Profile
         </Button>
       </Box>

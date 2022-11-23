@@ -101,8 +101,8 @@ export default function Profile() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     height: 'min-content',
-                    backgroundColor: 'secondary.main',
-                    color: 'secondary.contrastText',
+                    backgroundColor: 'primary.main',
+                    color: 'primary.contrastText',
                   }}
                 >
                   <Typography variant='h3' sx={{ flexGrow: 1 }}>

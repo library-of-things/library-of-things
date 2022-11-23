@@ -151,7 +151,7 @@ export default function Thread() {
           <ButtonBase component={Link} href={`/items/${thread.item_id}`}>
             <Image
               alt={thread.item.name}
-              src={thread.item.image_url}
+              src={thread.item.image_url || '/assets/puppies.jpg'}
               height={60}
               width={60}
               style={{ objectFit: 'cover', margin: 8, borderRadius: 100 }}

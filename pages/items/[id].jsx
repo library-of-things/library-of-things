@@ -66,7 +66,7 @@ export default function ItemPage({ user, data }) {
               style={{ objectFit: 'cover' }}
               alt={data.name}
               fill
-              src={data.image_url}
+              src={data.image_url || '/assets/puppies.jpg'}
             />
           </Box>
         </Box>

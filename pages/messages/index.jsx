@@ -87,7 +87,7 @@ export default function MessagesInboxPage() {
                     <ListItemAvatar>
                       <Image
                         alt={thread.item.name}
-                        src={thread.item.image_url}
+                        src={thread.item.image_url || '/assets/puppies.jpg'}
                         width={80}
                         height={80}
                         style={{ borderRadius: 100, objectFit: 'cover' }}
