@@ -27,7 +27,10 @@ export default function Profile() {
   if (id && profile)
     return (
       <Box>
-        <Paper elevation={1} sx={{ padding: 4, width: '100vw' }}>
+        <Paper elevation={1} sx={{ padding: 4, width: '100vw', mb: 4 }}>
+          <Box sx={{ width: 'fit-content', marginLeft: 'auto' }}>
+            {user && user.id === id && <AccountEdit />}
+          </Box>
           <Container
             sx={{
               display: 'flex',
@@ -127,7 +130,6 @@ export default function Profile() {
         ) : (
           <UserItemList userId={id} />
         )}
-        {user && user.id === id && <AccountEdit />}
       </Box>
     );
 }

@@ -27,7 +27,7 @@ let theme = createTheme({
       fontFamily: 'Spectral',
     },
     body2: {
-      fontFamily: 'Spectral',
+      fontFamily: 'Karla',
     },
     caption: {
       fontFamily: 'Spectral',

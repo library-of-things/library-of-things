@@ -9,6 +9,7 @@ import {
   Button,
   ButtonBase,
   Paper,
+  Chip,
 } from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -40,7 +41,6 @@ export default function ItemPage({ user, data }) {
   return (
     <Box>
       <Paper sx={{ padding: 2 }}>
-        <Typography variant='h6'>{data.category}</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -48,10 +48,14 @@ export default function ItemPage({ user, data }) {
             alignItems: { sm: 'center', md: 'flex-start' },
           }}
         >
-          <Typography variant='h4'>{data.name}</Typography>
+          <Container sx={{ flexGrow: 1 }}>
+            <Typography variant='h4'>{data.name}</Typography>
+            <Chip label={data.category} />
+            {/* <Typography variant='h6'>{data.category}</Typography> */}
+          </Container>
           <Box
             sx={{
-              borderRadius: 8,
+              borderRadius: 4,
               height: '500px',
               width: '400px',
               overflow: 'hidden',
