@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Box, Stack } from '@mui/system';
 import { Description } from '@mui/icons-material';
 
+
 const getImage = async() => {
 	let { data: items, error } = await supabase
 	.from('items')
