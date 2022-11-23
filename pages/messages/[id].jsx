@@ -19,6 +19,7 @@ import {
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Thread() {
   const router = useRouter();
@@ -148,7 +149,8 @@ export default function Thread() {
             {'---->'}
           </Typography>
           <ButtonBase component={Link} href={`/items/${thread.item_id}`}>
-            <img
+            <Image
+              alt={thread.item.name}
               src={thread.item.image_url}
               height={60}
               width={60}

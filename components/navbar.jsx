@@ -91,7 +91,12 @@ export default function Navbar() {
             </IconButton>
           </Tooltip>
           {!user ? (
-            <Button variant='contained' component={Link} href='/login'>
+            <Button
+              variant='contained'
+              component={Link}
+              href='/login'
+              sx={{ ml: 2 }}
+            >
               Login
             </Button>
           ) : (

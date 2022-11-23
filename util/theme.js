@@ -5,6 +5,7 @@ let theme = createTheme({
     fontFamily: ['Karla', 'Spectral'].join(','),
     h1: {
       fontFamily: 'Karla',
+      letterSpacing: 1.5,
     },
     h2: {
       fontFamily: 'Karla',
