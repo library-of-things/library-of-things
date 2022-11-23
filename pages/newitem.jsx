@@ -9,9 +9,13 @@ import {
   Select,
   Stack,
   Button,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material';
+
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/router';
 
 export default function NewItemPage({ user, categories }) {
   const supabaseClient = useSupabaseClient();
@@ -21,6 +25,8 @@ export default function NewItemPage({ user, categories }) {
   const [condition, setCondition] = useState('');
   const [category, setCategory] = useState('');
   const [uploading, setUploading] = useState(false);
+  const router = useRouter();
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -36,7 +42,6 @@ export default function NewItemPage({ user, categories }) {
       .select()
       .single();
     if (imageInput?.files.length !== 0) {
-      console.log(imageInput);
       uploadImage(imageInput, data.id);
     }
   }
@@ -75,6 +80,7 @@ export default function NewItemPage({ user, categories }) {
       console.error(error);
     } finally {
       setUploading(false);
+      router.push('/community');
     }
   }
   return (
@@ -128,10 +134,14 @@ export default function NewItemPage({ user, categories }) {
               );
             })}
           </TextField>
-          <Button type='submit' variant='contained'>
+
+          <Button type='submit' variant='contained' disabled={uploading}>
             Submit
           </Button>
         </Stack>
+        <Backdrop sx={{ color: '#fff' }} open={uploading}>
+          <CircularProgress color='primary' />
+        </Backdrop>
       </Container>
     </>
   );

@@ -13,22 +13,22 @@ export default function useProfile(userId) {
         .eq('id', userId)
         .single();
 
-      console.log(data);
       const totalPossibleTrust =
-        data.item_lend_count * 1.2 +
+        data.item_lend_count * 1.5 +
         data.item_borrow_count * 0.8 +
-        data.item_count_good * 1.2;
+        data.receives_count_good * 1.2;
 
       const trustRaw =
-        data.item_lend_count * 1.2 +
+        data.item_lend_count * 1.5 +
         data.item_borrow_count * 0.8 +
-        data.item_count_good * 1.2 -
+        data.receives_count_good * 1.2 -
         data.receives_count_bad;
 
       let trustScore = 0;
       if (trustRaw) {
-        trustScore = totalPossibleTrust / trustRaw;
+        trustScore = trustRaw / totalPossibleTrust;
       }
+      trustScore = (Math.round(trustScore * 100) / 100) * 100;
 
       setProfile({ ...data, trustScore });
     }

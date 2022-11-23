@@ -3,7 +3,7 @@
 import ItemList from '../components/itemList/itemList';
 import cardData from '../components/itemList/cardData';
 import { useState } from 'react';
-import { Grid, styled, Box, Modal } from "@mui/material";
+import { Grid, styled, Box, Modal } from '@mui/material';
 import { AddBoxSharp } from '@mui/icons-material';
 import ShowItemModal from '.././components/modal/modal';
 import * as React from 'react';
@@ -14,19 +14,17 @@ import { useRouter } from 'next/router';
 
 export default function CommunityPage() {
   const router = useRouter();
-
-
-  return (
-    <>
-      <ItemList initialQuery={router.query} />
-    </>
-  );
+  if (router.isReady) {
+    return (
+      <>
+        <ItemList initialQuery={router.query} />
+      </>
+    );
+  }
 }
 
-
-
-
-{/* {cardData.map(product => {
+{
+  /* {cardData.map(product => {
 						return (
 						<Box
 						padding= "1vw"
@@ -34,4 +32,5 @@ export default function CommunityPage() {
 						alignItems="center"
 						justifyItems="center">
 							<Product cardData={product}/>
-						</Box>	 */}
+						</Box>	 */
+}

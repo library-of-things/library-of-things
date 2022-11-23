@@ -22,14 +22,7 @@ export default function ItemList({ initialQuery }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
-  const [currentCategory, setCurrentCategory] = useState(null);
-
-  useEffect(() => {
-    if (initialQuery.cat) {
-      console.log(initialQuery);
-      setCurrentCategory(parseInt(initialQuery.cat));
-    }
-  }, [initialQuery]);
+  const [currentCategory, setCurrentCategory] = useState(initialQuery.cat);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -41,7 +34,6 @@ export default function ItemList({ initialQuery }) {
 
     async function loadItems() {
       let query = supabase.from('items').select('*');
-
       if (currentCategory) {
         query = query.eq('category_id', currentCategory);
       }
@@ -56,7 +48,7 @@ export default function ItemList({ initialQuery }) {
       fetchCategories();
       loadItems();
     }
-  }, [currentCategory]);
+  }, [supabase, currentCategory]);
 
   if (categories)
     return (
@@ -97,26 +89,36 @@ export default function ItemList({ initialQuery }) {
                   md={4}
                   lg={3}
                   gap={2}
-                  sx={{
-                    overflow: 'hidden',
-                  }}
+                  sx={
+                    {
+                      // overflow: 'hidden',
+                    }
+                  }
                   key={item.id}
                 >
                   <ButtonBase
                     key={item.id}
                     component={Link}
                     href={`/items/${item.id}`}
-                    sx={{ display: 'flex', flexDirection: 'column' }}
+                    sx={{ width: '100%', height: '100%' }}
                   >
-                    <Image
-                      src={`${item.image_url}`}
-                      // fill
-                      width={300}
-                      height={500}
-                      alt={item.name}
-                      style={{ objectFit: 'cover', borderRadius: 8 }}
-                      // loading='lazy'
-                    />
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        height: 500,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={`${item.image_url || '/assets/puppies.jpg'}`}
+                        fill
+                        alt={item.name}
+                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        quality={75}
+                        style={{ objectFit: 'cover', borderRadius: 8 }}
+                      />
+                    </Box>
                   </ButtonBase>
                   <Box>
                     <Typography variant='h6' noWrap>

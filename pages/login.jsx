@@ -20,6 +20,7 @@ export default function LoginPage() {
       <Auth
         redirectTo='localhost:3000/'
         appearance={{ theme: ThemeSupa }}
+        theme='dark'
         supabaseClient={supabaseClient}
       ></Auth>
     </Container>
