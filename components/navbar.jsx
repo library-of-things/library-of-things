@@ -13,6 +13,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
+import Badge from '@mui/material/Badge';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -21,12 +22,15 @@ import HeaderAvatar from './header-avatar';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
   const supabase = useSupabaseClient();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const user = useUser();
   const [categories, setCategories] = useState(null);
+  const [messageCount, setMessageCount] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchCategories() {
@@ -36,8 +40,29 @@ export default function Navbar() {
 
       setCategories(categories);
     }
-    if (supabase) fetchCategories();
-  });
+    if (supabase) {
+      fetchCategories();
+    }
+    if (supabase && user && router.isReady) {
+      supabase
+        .channel(`personal-channel-${user.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'threads',
+            filter: `receiver_id=eq.${user.id}`,
+          },
+          (payload) => {
+            if (payload.new.id != router.query.id) {
+              setMessageCount((messageCount) => messageCount + 1);
+            }
+          }
+        )
+        .subscribe();
+    }
+  }, [supabase, user, router]);
 
   return (
     <>
@@ -80,11 +105,17 @@ export default function Navbar() {
               <AddCircleOutlineIcon size='lg' />
             </IconButton>
           </Tooltip>
-          <Tooltip title='View messages'>
-            <IconButton component={Link} href='/messages'>
-              <MailOutlineIcon size='lg' />
-            </IconButton>
-          </Tooltip>
+          <Badge badgeContent={messageCount} color='primary'>
+            <Tooltip title='View messages'>
+              <IconButton
+                component={Link}
+                href='/messages'
+                onClick={() => setMessageCount(0)}
+              >
+                <MailOutlineIcon size='lg' />
+              </IconButton>
+            </Tooltip>
+          </Badge>
           <Tooltip title='Community'>
             <IconButton component={Link} href='/community'>
               <AutoStoriesIcon />

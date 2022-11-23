@@ -83,7 +83,7 @@ export default function Thread() {
           event: '*',
           schema: 'public',
           table: 'messages',
-          // filter: `thread_id=eq.${id}`,
+          filter: `thread_id=eq.${id}`,
         },
         (payload) => {
           setPayload(payload);

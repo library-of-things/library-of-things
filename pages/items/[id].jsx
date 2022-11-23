@@ -34,7 +34,6 @@ export default function ItemPage({ user, data }) {
       })
       .select()
       .single();
-    console.log(thread.id);
     router.push(`/messages/${thread.id}`);
   }
 

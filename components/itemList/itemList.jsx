@@ -22,14 +22,7 @@ export default function ItemList({ initialQuery }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
-  const [currentCategory, setCurrentCategory] = useState(null);
-
-  useEffect(() => {
-    if (initialQuery.cat) {
-      console.log(initialQuery);
-      setCurrentCategory(parseInt(initialQuery.cat));
-    }
-  }, [initialQuery]);
+  const [currentCategory, setCurrentCategory] = useState(initialQuery.cat);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -41,7 +34,6 @@ export default function ItemList({ initialQuery }) {
 
     async function loadItems() {
       let query = supabase.from('items').select('*');
-
       if (currentCategory) {
         query = query.eq('category_id', currentCategory);
       }
@@ -56,7 +48,7 @@ export default function ItemList({ initialQuery }) {
       fetchCategories();
       loadItems();
     }
-  }, [currentCategory]);
+  }, [supabase, currentCategory]);
 
   if (categories)
     return (

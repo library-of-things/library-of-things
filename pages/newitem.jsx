@@ -42,7 +42,6 @@ export default function NewItemPage({ user, categories }) {
       .select()
       .single();
     if (imageInput?.files.length !== 0) {
-      console.log(imageInput);
       uploadImage(imageInput, data.id);
     }
   }

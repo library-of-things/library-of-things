@@ -13,7 +13,6 @@ export default function useProfile(userId) {
         .eq('id', userId)
         .single();
 
-      console.log(data);
       const totalPossibleTrust =
         data.item_lend_count * 1.5 +
         data.item_borrow_count * 0.8 +
