@@ -55,6 +55,21 @@ export default function Navbar() {
             filter: `receiver_id=eq.${user.id}`,
           },
           (payload) => {
+            console.log('SOMEONE SENT YOU A MESSAGE');
+            if (payload.new.id != router.query.id) {
+              setMessageCount((messageCount) => messageCount + 1);
+            }
+          }
+        )
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'threads',
+            filter: `sender_id=eq.${user.id}`,
+          },
+          (payload) => {
             if (payload.new.id != router.query.id) {
               setMessageCount((messageCount) => messageCount + 1);
             }
@@ -105,17 +120,17 @@ export default function Navbar() {
               <AddCircleOutlineIcon size='lg' />
             </IconButton>
           </Tooltip>
-          <Badge badgeContent={messageCount} color='primary'>
-            <Tooltip title='View messages'>
-              <IconButton
-                component={Link}
-                href='/messages'
-                onClick={() => setMessageCount(0)}
-              >
+          <Tooltip title='View messages'>
+            <IconButton
+              component={Link}
+              href='/messages'
+              onClick={() => setMessageCount(0)}
+            >
+              <Badge badgeContent={messageCount} color='primary'>
                 <MailOutlineIcon size='lg' />
-              </IconButton>
-            </Tooltip>
-          </Badge>
+              </Badge>
+            </IconButton>
+          </Tooltip>
           <Tooltip title='Community'>
             <IconButton component={Link} href='/community'>
               <AutoStoriesIcon />
