@@ -101,7 +101,7 @@ export default function ItemPage({ user, data }) {
               }}
             >
               <Image
-                style={{ objectFit: 'contain', padding: 12 }}
+                style={{ objectFit: 'contain' }}
                 alt={data.name}
                 fill
                 src={data.image_url || '/assets/puppies.jpg'}

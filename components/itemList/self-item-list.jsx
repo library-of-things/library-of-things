@@ -57,6 +57,7 @@ export default function SelfItemList({ userId }) {
     }
     setDeletedItem(data);
     await loadItems();
+    setDeleteDialog(false);
   }
 
   function deletedSnackbarClose() {
