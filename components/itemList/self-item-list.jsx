@@ -8,7 +8,16 @@ import Container from '@mui/material/Container'; // Grid version 2
 import Link from 'next/link';
 import { ButtonBase, IconButton, Snackbar, Alert } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Typography, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Paper,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  DialogActions,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import Image from 'next/image';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -16,7 +25,8 @@ import { useEffect, useState } from 'react';
 export default function SelfItemList({ userId }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
-  const [deletedItem, setDeletedItem] = useState(null);
+  const [deletedItem, setDeletedItem] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
 
   useEffect(() => {
     loadItems();
@@ -50,7 +60,7 @@ export default function SelfItemList({ userId }) {
   }
 
   function deletedSnackbarClose() {
-    setDeletedItem(null);
+    setDeletedItem(false);
   }
 
   if (items)
@@ -101,7 +111,11 @@ export default function SelfItemList({ userId }) {
                     <Typography variant='overline' noWrap align='center'>
                       {item.name}
                     </Typography>
-                    <IconButton onClick={() => deleteItem(item.id)}>
+                    <IconButton
+                      onClick={() =>
+                        setDeleteDialog({ name: item.name, id: item.id })
+                      }
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Box>
@@ -119,6 +133,25 @@ export default function SelfItemList({ userId }) {
             {`${deletedItem?.name} deleted successfully.`}
           </Alert>
         </Snackbar>
+        <Dialog open={deleteDialog} onClose={() => setDeleteDialog(false)}>
+          <DialogTitle id='alert-dialog-title'>Delete this item?</DialogTitle>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-description'>
+              {`This action will delete ${deleteDialog?.name} forever! Do you wish to proceed?`}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant='contained'
+              onClick={() => deleteItem(deleteDialog?.id)}
+            >
+              Confirm
+            </Button>
+            <Button variant='outlined' onClick={() => setDeleteDialog(false)}>
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     );
 }
