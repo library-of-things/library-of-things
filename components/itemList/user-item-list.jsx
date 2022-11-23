@@ -55,20 +55,24 @@ export default function UserItemList({ userId }) {
                     key={item.id}
                     component={Link}
                     href={`/items/${item.id}`}
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                    }}
+                    sx={{ width: '100%', height: '100%' }}
                   >
-                    <Image
-                      src={`${item.image_url}`}
-                      // fill
-                      width={120}
-                      height={200}
-                      alt={item.name}
-                      style={{ objectFit: 'cover', borderRadius: 8 }}
-                      // loading='lazy'
-                    />
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        width: '100%',
+                        height: 300,
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <Image
+                        src={`${item.image_url || '/assets/puppies.jpg'}`}
+                        fill
+                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                        alt={item.name}
+                        style={{ objectFit: 'cover', borderRadius: 8 }}
+                      />
+                    </Box>
                   </ButtonBase>
                   <Box
                     overflow={'hidden'}
