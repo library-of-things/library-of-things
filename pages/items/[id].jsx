@@ -8,6 +8,7 @@ import {
   Stack,
   Button,
   ButtonBase,
+  Paper,
 } from '@mui/material';
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -15,6 +16,7 @@ import { useEffect } from 'react';
 import useAvatarImage from '../../util/hooks/use-avatar-image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 export default function ItemPage({ user, data }) {
   const supabase = useSupabaseClient();
@@ -36,22 +38,35 @@ export default function ItemPage({ user, data }) {
   }
 
   return (
-    <Container>
-      <Stack>
-        <Typography variant='h4'>{data.name}</Typography>
+    <Box>
+      <Paper sx={{ padding: 2 }}>
         <Typography variant='h6'>{data.category}</Typography>
-      </Stack>
-      <Box
-        sx={{
-          borderRadius: 8,
-          height: '500px',
-          width: '500px',
-          overflow: 'hidden',
-        }}
-      >
-        <img alt={data.name} height='500' width='500' src={data.image_url} />
-      </Box>
-      <Box></Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { sm: 'column', md: 'row-reverse' },
+            alignItems: { sm: 'center', md: 'flex-start' },
+          }}
+        >
+          <Typography variant='h4'>{data.name}</Typography>
+          <Box
+            sx={{
+              borderRadius: 8,
+              height: '500px',
+              width: '400px',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
+            <Image
+              style={{ objectFit: 'cover' }}
+              alt={data.name}
+              fill
+              src={data.image_url}
+            />
+          </Box>
+        </Box>
+      </Paper>
 
       <Box>
         <Box>
@@ -73,7 +88,7 @@ export default function ItemPage({ user, data }) {
         </Box>
         <pre>{JSON.stringify(data, null, 2)}</pre>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

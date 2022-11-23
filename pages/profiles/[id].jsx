@@ -26,75 +26,108 @@ export default function Profile() {
 
   if (id && profile)
     return (
-      <Container>
-        <Container sx={{ display: 'flex' }}>
-          <Box mr={8}>
-            <Typography variant='h4'>{profile.full_name}</Typography>
-            <Avatar src={avatarUrl} alt={id} sx={{ width: 200, height: 200 }} />
-          </Box>
-          <Stack direction='row' spacing={4}>
-            <Paper
-              elevation={8}
+      <Box>
+        <Paper elevation={1} sx={{ padding: 4, width: '100vw' }}>
+          <Container
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'center' },
+            }}
+          >
+            <Box
               sx={{
-                padding: 1,
+                marginRight: { xs: 0, sm: 8 },
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
-                height: 'min-content',
+                alignItems: { xs: 'center', sm: 'flex-start' },
+                marginBottom: { xs: 2, sm: 0 },
               }}
             >
-              <Typography variant='h3' sx={{ flexGrow: 1 }}>
-                {profile.item_lend_count}
-              </Typography>
-              <Typography variant='overline' noWrap>
-                Items lent
-              </Typography>
-            </Paper>
-            <Paper
-              elevation={8}
-              sx={{
-                padding: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: 'min-content',
-              }}
-            >
-              <Typography variant='h3' sx={{ flexGrow: 1 }}>
-                {profile.item_borrow_count}
-              </Typography>
-              <Typography variant='overline' noWrap>
-                Items borrowed
-              </Typography>
-            </Paper>
-            <Paper
-              elevation={8}
-              sx={{
-                padding: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                height: 'min-content',
-                backgroundColor: 'secondary.main',
-                color: 'secondary.contrastText',
-              }}
-            >
-              <Typography variant='h3' sx={{ flexGrow: 1 }}>
-                {profile.trustScore}
-              </Typography>
-              <Typography variant='overline' noWrap>
-                Trust Score
-              </Typography>
-            </Paper>
-          </Stack>
-        </Container>
-        <pre>{JSON.stringify(profile, null, 2)}</pre>
+              <Avatar
+                src={avatarUrl}
+                alt={id}
+                sx={{
+                  width: { xs: 100, md: 150 },
+                  height: { xs: 100, md: 150 },
+                }}
+              />
+              <Typography variant='h4'>{profile.full_name}</Typography>
+            </Box>
+            <Stack spacing={2}>
+              <Stack direction='row' spacing={4}>
+                <Paper
+                  elevation={8}
+                  sx={{
+                    padding: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    height: 'min-content',
+                  }}
+                >
+                  <Typography variant='h3' sx={{ flexGrow: 1 }}>
+                    {profile.item_lend_count}
+                  </Typography>
+                  <Typography variant='overline' noWrap>
+                    Items lent
+                  </Typography>
+                </Paper>
+                <Paper
+                  elevation={8}
+                  sx={{
+                    padding: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    height: 'min-content',
+                  }}
+                >
+                  <Typography variant='h3' sx={{ flexGrow: 1 }}>
+                    {profile.item_borrow_count}
+                  </Typography>
+                  <Typography variant='overline' noWrap>
+                    Borrowed
+                  </Typography>
+                </Paper>
+                <Paper
+                  elevation={8}
+                  sx={{
+                    padding: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    height: 'min-content',
+                    backgroundColor: 'secondary.main',
+                    color: 'secondary.contrastText',
+                  }}
+                >
+                  <Typography variant='h3' sx={{ flexGrow: 1 }}>
+                    {profile.trustScore}
+                  </Typography>
+                  <Typography variant='overline' noWrap>
+                    Trust Score
+                  </Typography>
+                </Paper>
+              </Stack>
+              <Stack>
+                <Paper elevation={2} sx={{ padding: 1 }}>
+                  <Typography>Member since:</Typography>
+                  <Typography>
+                    {new Date(profile.join_date).toLocaleDateString()}
+                  </Typography>
+                </Paper>
+              </Stack>
+            </Stack>
+          </Container>
+        </Paper>
+        {/* <pre>{JSON.stringify(profile, null, 2)}</pre> */}
         {user && user.id === id ? (
           <SelfItemList userId={user.id} />
         ) : (
           <UserItemList userId={id} />
         )}
         {user && user.id === id && <AccountEdit />}
-      </Container>
+      </Box>
     );
 }
