@@ -17,12 +17,20 @@ import Grid from '@mui/material/Unstable_Grid2';
 
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function ItemList({ initialQuery }) {
   const supabase = useSupabaseClient();
   const [items, setItems] = useState(null);
   const [categories, setCategories] = useState(null);
   const [currentCategory, setCurrentCategory] = useState(initialQuery.cat);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query) {
+      setCurrentCategory(router.query.cat);
+    }
+  }, [router.query]);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -48,7 +56,7 @@ export default function ItemList({ initialQuery }) {
       fetchCategories();
       loadItems();
     }
-  }, [supabase, currentCategory]);
+  }, [supabase, currentCategory, router.query]);
 
   if (categories)
     return (
@@ -61,24 +69,7 @@ export default function ItemList({ initialQuery }) {
             height: '100%',
             m: 1,
           }}
-        >
-          <ButtonGroup>
-            {categories.map((cat) => (
-              <Button
-                variant='contained'
-                color={currentCategory === cat.id ? 'secondary' : 'primary'}
-                key={`category-${cat.id}`}
-                onClick={() => {
-                  setCurrentCategory(
-                    currentCategory === cat.id ? null : cat.id
-                  );
-                }}
-              >
-                {cat.name}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </Box>
+        ></Box>
         <Container>
           {items && (
             <Grid container spacing={8}>

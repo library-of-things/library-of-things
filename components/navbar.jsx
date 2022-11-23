@@ -154,6 +154,15 @@ export default function Navbar() {
               </ListItemButton>
             </ListItem>
             <Divider />
+            <ListItem key='all-categories' disablePadding>
+              <ListItemButton
+                onClick={() => setDrawerOpen(false)}
+                component={Link}
+                href={`/community`}
+              >
+                <ListItemText primary='All Categories' />
+              </ListItemButton>
+            </ListItem>
             {categories.map((category) => (
               <ListItem key={category.id} disablePadding>
                 <ListItemButton
