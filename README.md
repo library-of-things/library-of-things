@@ -1,6 +1,6 @@
 # Library of Things
 
-## [Live Site](library-of-things.vercel.app)
+## [Live Site](https://www.library-of-things.vercel.app)
 
 _Has this ever been you?_
 
@@ -59,4 +59,4 @@ Our time from initial idea to minimum viable product was approximately 60 total 
 [Integrating MUI with Next.js](https://blog.logrocket.com/getting-started-with-mui-and-next-js/)
 [Building Real-time chat with Supabase](https://www.youtube.com/watch?v=P9X_qVt10DY&ab_channel=Supabase)
 
-### [Live Site](library-of-things.vercel.app)
+### [Live Site](https://www.library-of-things.vercel.app)
