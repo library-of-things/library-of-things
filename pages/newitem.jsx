@@ -23,7 +23,7 @@ export default function NewItemPage({ user, categories }) {
   const [imageInput, setImageInput] = useState(null);
   const [description, setDescription] = useState('');
   const [condition, setCondition] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(1);
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export default function NewItemPage({ user, categories }) {
         name,
         description,
         condition,
-        category,
+        category_id: category,
         owner_id: user.id,
       })
       .select()
@@ -128,7 +128,7 @@ export default function NewItemPage({ user, categories }) {
           >
             {categories.map((category) => {
               return (
-                <MenuItem key={category.id} value={category.name}>
+                <MenuItem key={category.id} value={category.id}>
                   {category.name}
                 </MenuItem>
               );
